@@ -83,6 +83,7 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.rainbow.enable = true
 
 -- generic LSP settings
 
@@ -158,6 +159,9 @@ lvim.plugins = {
       style = 'deep',
     }
   },
+  {
+    'p00f/nvim-ts-rainbow'
+  }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
