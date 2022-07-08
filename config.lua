@@ -12,6 +12,9 @@ an executable
 lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "onedark"
+vim.opt["relativenumber"] = true
+-- vim.opt["wrap"] = true
+
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -21,6 +24,12 @@ lvim.builtin.nvimtree.setup.actions.open_file.resize_window = true
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+
+-- disable arrow keys
+lvim.keys.normal_mode["<Left>"] = ':echo "left is disabled"<CR>'
+lvim.keys.normal_mode["<Up>"] = ':echo "up is disabled"<CR>'
+lvim.keys.normal_mode["<Down>"] = ':echo "down is disabled"<CR>'
+lvim.keys.normal_mode["<Right>"] = ':echo "right is disabled"<CR>'
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
@@ -79,6 +88,7 @@ lvim.builtin.treesitter.ensure_installed = {
   "rust",
   "java",
   "yaml",
+  "toml",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
