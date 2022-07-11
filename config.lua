@@ -16,8 +16,8 @@ vim.opt["relativenumber"] = true
 -- vim.opt["wrap"] = true
 
 -- expand region
-vim.cmd("vmap v <Plug>(expand_region_expand)")
-vim.cmd("vmap <C-v> <Plug>(expand_region_shrink)")
+lvim.keys.visual_mode["v"] = "<Plug>(expand_region_expand)"
+lvim.keys.visual_mode["<C-v>"] = "<Plug>(expand_region_shrink)"
 
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -34,6 +34,10 @@ lvim.keys.normal_mode["<Left>"] = ':echo "left is disabled"<CR>'
 lvim.keys.normal_mode["<Up>"] = ':echo "up is disabled"<CR>'
 lvim.keys.normal_mode["<Down>"] = ':echo "down is disabled"<CR>'
 lvim.keys.normal_mode["<Right>"] = ':echo "right is disabled"<CR>'
+
+-- put doesn't replace text
+lvim.keys.visual_mode["p"] = '"_dP'
+
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
@@ -178,7 +182,7 @@ lvim.plugins = {
   },
   {
     "terryma/vim-expand-region"
-  }
+  },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
