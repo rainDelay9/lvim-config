@@ -15,6 +15,10 @@ lvim.colorscheme = "onedark"
 vim.opt["relativenumber"] = true
 -- vim.opt["wrap"] = true
 
+-- expand region
+vim.cmd("vmap v <Plug>(expand_region_expand)")
+vim.cmd("vmap <C-v> <Plug>(expand_region_shrink)")
+
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -171,6 +175,9 @@ lvim.plugins = {
   },
   {
     'p00f/nvim-ts-rainbow'
+  },
+  {
+    "terryma/vim-expand-region"
   }
 }
 
