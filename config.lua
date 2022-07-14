@@ -35,6 +35,13 @@ lvim.keys.normal_mode["<Up>"] = ':echo "up is disabled"<CR>'
 lvim.keys.normal_mode["<Down>"] = ':echo "down is disabled"<CR>'
 lvim.keys.normal_mode["<Right>"] = ':echo "right is disabled"<CR>'
 
+
+-- map start/end of line
+lvim.keys.normal_mode["<C-e>"] = '^'
+lvim.keys.normal_mode["<C-r>"] = '$'
+lvim.keys.visual_mode["<C-e>"] = '^'
+lvim.keys.visual_mode["<C-r>"] = '$'
+
 -- put doesn't replace text
 lvim.keys.visual_mode["p"] = '"_dP'
 
