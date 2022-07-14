@@ -183,6 +183,9 @@ lvim.plugins = {
   {
     "terryma/vim-expand-region"
   },
+  {
+    "f-person/git-blame.nvim"
+  }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
