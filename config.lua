@@ -13,6 +13,8 @@ lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "onedark"
 vim.opt["relativenumber"] = true
+vim.opt["shiftwidth"] = 4
+vim.opt["tabstop"] = 4
 -- vim.opt["wrap"] = true
 
 -- expand region
@@ -42,8 +44,16 @@ lvim.keys.normal_mode["<C-r>"] = '$'
 lvim.keys.visual_mode["<C-e>"] = '^'
 lvim.keys.visual_mode["<C-r>"] = '$'
 
+-- map redo to ctrl + y
+lvim.keys.normal_mode["<C-y>"] = ':redo'
+lvim.keys.visual_mode["<C-y>"] = ':redo'
+
 -- put doesn't replace text
 lvim.keys.visual_mode["p"] = '"_dP'
+
+-- oscyank
+lvim.keys.visual_mode["<leader>c"] = ':OSCYank<CR>'
+lvim.keys.visual_mode["C-c"] = ':OSCYank<CR>'
 
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
@@ -54,30 +64,30 @@ lvim.keys.visual_mode["p"] = '"_dP'
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
 local _, actions = pcall(require, "telescope.actions")
 lvim.builtin.telescope.defaults.mappings = {
-  -- for input mode
-  i = {
-    ["<C-j>"] = actions.move_selection_next,
-    ["<C-k>"] = actions.move_selection_previous,
-    ["<C-n>"] = actions.cycle_history_next,
-    ["<C-p>"] = actions.cycle_history_prev,
-  },
-  -- for normal mode
-  n = {
-    ["<C-j>"] = actions.move_selection_next,
-    ["<C-k>"] = actions.move_selection_previous,
-  },
+    -- for input mode
+    i = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-n>"] = actions.cycle_history_next,
+        ["<C-p>"] = actions.cycle_history_prev,
+    },
+    -- for normal mode
+    n = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+    },
 }
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 lvim.builtin.which_key.mappings["t"] = {
-  name = "+Trouble",
-  r = { "<cmd>Trouble lsp_references<cr>", "References" },
-  f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-  d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
-  q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
-  l = { "<cmd>Trouble loclist<cr>", "LocationList" },
-  w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
+    name = "+Trouble",
+    r = { "<cmd>Trouble lsp_references<cr>", "References" },
+    f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+    d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
+    q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+    l = { "<cmd>Trouble loclist<cr>", "LocationList" },
+    w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
 }
 
 -- TODO: User Config for predefined plugins
@@ -91,19 +101,19 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
-  "bash",
-  "c",
-  "javascript",
-  "json",
-  "lua",
-  "python",
-  "typescript",
-  "tsx",
-  "css",
-  "rust",
-  "java",
-  "yaml",
-  "toml",
+    "bash",
+    "c",
+    "javascript",
+    "json",
+    "lua",
+    "python",
+    "typescript",
+    "tsx",
+    "css",
+    "rust",
+    "java",
+    "yaml",
+    "toml",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -173,38 +183,53 @@ lvim.builtin.treesitter.rainbow.enable = true
 
 -- Additional Plugins
 lvim.plugins = {
-  { "folke/tokyonight.nvim" },
-  {
-    "folke/trouble.nvim",
-    cmd = "Trouble",
-  },
-  {
-    "navarasu/onedark.nvim",
-    config = require('onedark').setup {
-      style = 'deep',
+    { "folke/tokyonight.nvim" },
+    {
+        "folke/trouble.nvim",
+        cmd = "Trouble",
+    },
+    {
+        "navarasu/onedark.nvim",
+        config = require('onedark').setup {
+            style = 'deep',
+        }
+    },
+    {
+        'p00f/nvim-ts-rainbow'
+    },
+    {
+        "terryma/vim-expand-region"
+    },
+    {
+        "f-person/git-blame.nvim"
+    },
+    {
+        "saecki/crates.nvim",
+        config = require('crates').setup()
+    },
+    {
+        'vuki656/package-info.nvim',
+        requires = 'MunifTanjim/nui.nvim',
+        config = require('package-info').setup()
+    },
+    {
+        'MunifTanjim/nui.nvim'
+    },
+    {
+        'ojroques/vim-oscyank'
     }
-  },
-  {
-    'p00f/nvim-ts-rainbow'
-  },
-  {
-    "terryma/vim-expand-region"
-  },
-  {
-    "f-person/git-blame.nvim"
-  }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = { "*.json", "*.jsonc" },
-  -- enable wrap mode for json files only
-  command = "setlocal wrap",
+    pattern = { "*.json", "*.jsonc" },
+    -- enable wrap mode for json files only
+    command = "setlocal wrap",
 })
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "zsh",
-  callback = function()
-    -- let treesitter use bash highlight for zsh files as well
-    require("nvim-treesitter.highlight").attach(0, "bash")
-  end,
+    pattern = "zsh",
+    callback = function()
+        -- let treesitter use bash highlight for zsh files as well
+        require("nvim-treesitter.highlight").attach(0, "bash")
+    end,
 })
