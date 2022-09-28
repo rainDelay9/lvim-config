@@ -15,6 +15,8 @@ lvim.colorscheme = "onedark"
 vim.opt["relativenumber"] = true
 vim.opt["shiftwidth"] = 4
 vim.opt["tabstop"] = 4
+vim.opt.mouse = "a" -- allow the mouse to be used in neovim
+vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 -- vim.opt["wrap"] = true
 
 -- expand region
@@ -37,6 +39,9 @@ lvim.keys.normal_mode["<Up>"] = ':echo "up is disabled"<CR>'
 lvim.keys.normal_mode["<Down>"] = ':echo "down is disabled"<CR>'
 lvim.keys.normal_mode["<Right>"] = ':echo "right is disabled"<CR>'
 
+-- jump tabs
+lvim.keys.normal_mode["<C-l>"] = ':bn<CR>'
+lvim.keys.normal_mode["<C-h>"] = ':bp<CR>'
 
 -- map start/end of line
 lvim.keys.normal_mode["<C-e>"] = '^'
