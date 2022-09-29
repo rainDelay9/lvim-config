@@ -28,6 +28,9 @@ lvim.keys.visual_mode["<C-v>"] = "<Plug>(expand_region_shrink)"
 
 lvim.builtin.nvimtree.setup.actions.open_file.resize_window = true
 
+-- session
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
@@ -40,18 +43,18 @@ lvim.keys.normal_mode["<Down>"] = ':echo "down is disabled"<CR>'
 lvim.keys.normal_mode["<Right>"] = ':echo "right is disabled"<CR>'
 
 -- jump tabs
-lvim.keys.normal_mode["<C-l>"] = ':bn<CR>'
-lvim.keys.normal_mode["<C-h>"] = ':bp<CR>'
+lvim.keys.normal_mode["<C-k>"] = ':bn<CR>'
+lvim.keys.normal_mode["<C-j>"] = ':bp<CR>'
 
 -- map start/end of line
-lvim.keys.normal_mode["<C-e>"] = '^'
-lvim.keys.normal_mode["<C-r>"] = '$'
-lvim.keys.visual_mode["<C-e>"] = '^'
-lvim.keys.visual_mode["<C-r>"] = '$'
+-- lvim.keys.normal_mode["<C-e>"] = '^'
+-- lvim.keys.normal_mode["<C-r>"] = '$'
+-- lvim.keys.visual_mode["<C-e>"] = '^'
+-- lvim.keys.visual_mode["<C-r>"] = '$'
 
 -- map redo to ctrl + y
-lvim.keys.normal_mode["<C-y>"] = ':redo'
-lvim.keys.visual_mode["<C-y>"] = ':redo'
+lvim.keys.normal_mode["<C-y>"] = ':redo<CR>'
+lvim.keys.visual_mode["<C-y>"] = ':redo<CR>'
 
 -- put doesn't replace text
 lvim.keys.visual_mode["p"] = '"_dP'
@@ -59,6 +62,9 @@ lvim.keys.visual_mode["p"] = '"_dP'
 -- oscyank
 lvim.keys.visual_mode["<leader>c"] = ':OSCYank<CR>'
 lvim.keys.visual_mode["C-c"] = ':OSCYank<CR>'
+
+-- quit all with <leader>q
+lvim.keys.normal_mode["<C-q>"] = ':qa<CR>'
 
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
@@ -153,20 +159,20 @@ lvim.builtin.treesitter.rainbow.enable = true
 -- end
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
--- local formatters = require "lvim.lsp.null-ls.formatters"
--- formatters.setup {
---   { command = "black", filetypes = { "python" } },
---   { command = "isort", filetypes = { "python" } },
---   {
---     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
---     command = "prettier",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     extra_args = { "--print-with", "100" },
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "typescript", "typescriptreact" },
---   },
--- }
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+    { command = "black", filetypes = { "python" } },
+    { command = "isort", filetypes = { "python" } },
+    {
+        -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+        command = "prettier",
+        ---@usage arguments to pass to the formatter
+        -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+        extra_args = { "--print-with", "100" },
+        ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+        filetypes = { "typescript", "typescriptreact" },
+    },
+}
 
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"
@@ -222,8 +228,28 @@ lvim.plugins = {
     },
     {
         'ojroques/vim-oscyank'
+    },
+    {
+        "rmagatti/auto-session",
+        config = function()
+            require("auto-session").setup({
+                log_level = "info",
+                auto_session_enable_last_session = true,
+                -- auto_session_root_dir = vim.fn.stdpath("data") .. "/sessions/",
+                auto_session_enabled = true,
+                auto_save_enabled = true,
+                auto_restore_enabled = true,
+                -- auto_session_suppress_dirs = { "~/", "~/Projects" },
+                auto_session_suppress_dirs = nil,
+                auto_session_use_git_branch = true,
+            })
+        end,
+    },
+    {
+        'prettier/vim-prettier'
     }
 }
+
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 vim.api.nvim_create_autocmd("BufEnter", {
